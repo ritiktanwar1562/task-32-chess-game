@@ -1,3 +1,4 @@
+// chess piece symbols
 const pieces = {
     wp: "♙",
     wr: "♖",
@@ -15,6 +16,7 @@ const pieces = {
   };
   
   function Piece({ piece }) {
+    // show the matching chess symbol
     return <span className="piece">{pieces[piece] || ""}</span>;
   }
   

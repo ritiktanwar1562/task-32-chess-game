@@ -6,6 +6,7 @@ function Board({
   legalMoves,
   onSquareClick,
 }) {
+  // display the chess board using CSS grid
   return (
     <div
       style={{
@@ -16,7 +17,8 @@ function Board({
         height: "480px",
         border: "2px solid black",
       }}
-    >
+    >    
+      {/* create all 64 squares */}
       {board.map((row, rowIndex) =>
         row.map((piece, colIndex) => (
           <Square
@@ -24,11 +26,13 @@ function Board({
             row={rowIndex}
             col={colIndex}
             piece={piece}
+            // highlight selected piece
             selected={
               selected &&
               selected.row === rowIndex &&
               selected.col === colIndex
             }
+            // highlight  legal moves
             legalMove={legalMoves.some(
               (move) =>
                 move.row === rowIndex &&

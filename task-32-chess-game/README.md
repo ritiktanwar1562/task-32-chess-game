@@ -2,11 +2,9 @@
 
 ## About My Project
 
-I made this Offline Chess Game project using React JS.
+I built this offline chess game as part of my React learning journey. Before starting this project, I had only created small React applications. I wanted to challenge myself by creating a game that uses both React components and JavaScript logic.
 
-The main purpose of making this project was to learn how to create interactive applications using React and understand how game logic works.
-
-This is a two player chess game where both players can play on the same device by taking turns.
+While working on this project, I learned how different chess rules work and how to convert those rules into code. I completed the project by developing and testing each feature one by one.
 
 ## Features I Added
 
@@ -76,21 +74,17 @@ I learned:
 
 ## Problems I Faced
 
-The most difficult part of this project was creating chess movement rules without using any external chess library.
+The hardest part of this project was implementing check and checkmate logic because I first had to find the king, then check whether any opponent piece could attack it.
 
-Every chess piece has different movement rules, so creating validation logic was challenging.
+Another challenge was validating legal moves without breaking the game state. During development I tested many board positions manually and fixed several bugs related to piece movement, turn switching and move validation.
 
-I also faced problems while managing turns, timers and checking game conditions.
-
-I solved these problems by testing each part separately and improving my code step by step.
+I improved the project step by step instead of writing everything at once, which helped me understand the complete logic.
 
 ## Project Structure
 src | |-- components |   |-- Board.jsx |   |-- Square.jsx |   |-- Piece.jsx |   |-- Timer.jsx |   |-- MoveList.jsx | |-- data |   |-- initialBoard.js | |-- utils |-- moveValidator.jsx |-- chessLogic.jsx |-- checkLogic.jsx |-- notation.jsx
 
 ## Conclusion
 
-Making this chess game was a challenging but useful experience for me.
+This project gave me practical experience with React and JavaScript. Instead of only learning React syntax, I learned how to solve real programming problems by breaking them into smaller parts.
 
-This project improved my React skills and helped me understand how real applications are built using logic and components.
-
-I learned how to solve problems step by step and create a complete working project.
+If I continue improving this project in the future, I would like to add features such as castling, pawn promotion, draw detection and playing against the computer.

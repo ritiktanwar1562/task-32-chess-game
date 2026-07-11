@@ -8,13 +8,16 @@ function Square({
   legalMove,
   onClick,
 }) {
+  // decide square color
   const isWhite = (row + col) % 2 === 0;
 
   let background = isWhite ? "#f0d9b5" : "#b58863";
-
+// highlight selected peice
   if (selected) {
     background = "#ffd54f";
-  } else if (legalMove) {
+  }
+  //highlight legal move squares
+   else if (legalMove) {
     background = "#7CFC00";
   }
 
@@ -34,6 +37,7 @@ function Square({
         userSelect: "none",
       }}
     >
+      {/* display chess piece*/}
       <Piece piece={piece} />
     </div>
   );
