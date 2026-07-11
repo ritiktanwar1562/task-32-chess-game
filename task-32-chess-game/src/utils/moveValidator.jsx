@@ -1,3 +1,21 @@
+function isDiagonalPathClear(board, fromRow, fromCol, toRow, toCol) {
+    const rowStep = toRow > fromRow ? 1 : -1;
+    const colStep = toCol > fromCol ? 1 : -1;
+  
+    let currentRow = fromRow + rowStep;
+    let currentCol = fromCol + colStep;
+  
+    while (currentRow !== toRow) {
+      if (board[currentRow][currentCol] !== "") {
+        return false;
+      }
+  
+      currentRow += rowStep;
+      currentCol += colStep;
+    }
+  
+    return true;
+  }
 export function isValidMove(board, fromRow, fromCol, toRow, toCol) {
     const piece = board[fromRow][fromCol];
   
@@ -43,14 +61,14 @@ export function isValidMove(board, fromRow, fromCol, toRow, toCol) {
       }
   
       
-      if (
-        Math.abs(toCol - fromCol) === 1 &&
-        toRow === fromRow + direction &&
-        target !== "" &&
-        target[0] !== color
-      ) {
-        return true;
-      }
+    // En Passant
+if (
+    Math.abs(toCol - fromCol) === 1 &&
+    toRow === fromRow + direction &&
+    target === ""
+  ) {
+    return true;
+  }
   
       return false;
     }
@@ -188,6 +206,7 @@ if (type === "q") {
     return false;
   }
   //  King 
+
 if (type === "k") {
 
     const rowDiff = Math.abs(toRow - fromRow);
@@ -197,9 +216,33 @@ if (type === "k") {
       return true;
     }
   
+    //  castling
+    if (
+      rowDiff === 0 &&
+      colDiff === 2 &&
+      toCol > fromCol &&
+      board[fromRow][7] === color + "r" &&
+      board[fromRow][5] === "" &&
+      board[fromRow][6] === ""
+    ) {
+      return true;
+    }
+  
+    //  castling
+    if (
+      rowDiff === 0 &&
+      colDiff === 2 &&
+      toCol < fromCol &&
+      board[fromRow][0] === color + "r" &&
+      board[fromRow][1] === "" &&
+      board[fromRow][2] === "" &&
+      board[fromRow][3] === ""
+    ) {
+      return true;
+    }
+  
     return false;
   }
-
 
       
     return true;

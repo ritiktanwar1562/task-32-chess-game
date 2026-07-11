@@ -3,7 +3,11 @@ import Board from "./components/Board";
 import MoveList from "./components/MoveList";
 import initialBoard from "./data/initialBoard";
 import { isValidMove } from "./utils/moveValidator";
-import { isKingInCheck, isCheckMate } from "./utils/checkLogic";
+import {
+  isKingInCheck,
+  isCheckMate,
+  isMoveSafe,
+} from "./utils/checkLogic";
 import { getMoveNotation } from "./utils/notation";
 import Timer from "./components/Timer";
 
@@ -18,6 +22,7 @@ const [capturedWhite, setCapturedWhite] = useState([]);
 const [capturedBlack, setCapturedBlack] = useState([]);
 const [legalMoves, setLegalMoves] = useState([]);
 const [history, setHistory] = useState([]);
+const [lastMove, setLastMove] = useState(null);
 
   const handleSquareClick = (row, col) => {
     if (!selected) {
@@ -49,6 +54,8 @@ setLegalMoves(moves);
 
       setSelected({ row, col });
     } else {
+      const color = board[selected.row][selected.col][0];
+
       if (
         !isValidMove(
           board,
@@ -56,10 +63,19 @@ setLegalMoves(moves);
           selected.col,
           row,
           col
+        ) ||
+        !isMoveSafe(
+          board,
+          selected.row,
+          selected.col,
+          row,
+          col,
+          color
         )
       ) {
         alert("Invalid Move");
         setSelected(null);
+        setLegalMoves([]);
         return;
       }
 
@@ -74,6 +90,36 @@ setLegalMoves(moves);
         newBoard[selected.row][selected.col];
 
       newBoard[selected.row][selected.col] = "";
+      const movedPiece = newBoard[row][col];
+
+      // Kingside Castling
+if (
+  movedPiece[1] === "k" &&
+  Math.abs(col - selected.col) === 2 &&
+  col > selected.col
+) {
+  newBoard[row][5] = newBoard[row][7];
+  newBoard[row][7] = "";
+}
+
+// Queenside Castling
+if (
+  movedPiece[1] === "k" &&
+  Math.abs(col - selected.col) === 2 &&
+  col < selected.col
+) {
+  newBoard[row][3] = newBoard[row][0];
+  newBoard[row][0] = "";
+}
+
+if (movedPiece === "wp" && row === 0) {
+  newBoard[row][col] = "wq";
+}
+
+if (movedPiece === "bp" && row === 7) {
+  newBoard[row][col] = "bq";
+}
+
       if (capturedPiece !== "") {
         if (capturedPiece[0] === "w") {
           setCapturedWhite((prev) => [...prev, capturedPiece]);
@@ -90,6 +136,13 @@ setLegalMoves(moves);
       );
 
       setMoves((prev) => [...prev, move]);
+      setLastMove({
+        piece: newBoard[row][col],
+        fromRow: selected.row,
+        fromCol: selected.col,
+        toRow: row,
+        toCol: col,
+      });
 
       setBoard(newBoard);
       setSelected(null);

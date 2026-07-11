@@ -38,6 +38,15 @@ export function isKingInCheck(board, color) {
   return false;
 }
 
+export function isMoveSafe(board, fromRow, fromCol, toRow, toCol, color) {
+    const tempBoard = board.map((row) => [...row]);
+  
+    tempBoard[toRow][toCol] = tempBoard[fromRow][fromCol];
+    tempBoard[fromRow][fromCol] = "";
+  
+    return !isKingInCheck(tempBoard, color);
+  }
+
 export function isCheckMate(board, color) {
     if (!isKingInCheck(board, color)) {
       return false;
@@ -56,16 +65,11 @@ export function isCheckMate(board, color) {
           for (let toCol = 0; toCol < 8; toCol++) {
   
             if (
-              isValidMove(
-                board,
-                fromRow,
-                fromCol,
-                toRow,
-                toCol
-              )
-            ) {
-              return false;
-            }
+                isValidMove(board, fromRow, fromCol, toRow, toCol) &&
+                isMoveSafe(board, fromRow, fromCol, toRow, toCol, color)
+              ) {
+                return false;
+              }
           }
         }
       }
