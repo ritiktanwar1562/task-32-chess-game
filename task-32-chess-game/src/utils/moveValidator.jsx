@@ -112,6 +112,7 @@ if (
   target === "" &&
   lastMove &&
   lastMove.piece[1] === "p" &&
+  lastMove.piece[0] !== color &&
   Math.abs(lastMove.fromRow - lastMove.toRow) === 2 &&
   lastMove.toRow === fromRow &&
   lastMove.toCol === toCol

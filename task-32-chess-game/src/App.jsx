@@ -7,6 +7,7 @@ import {
   isKingInCheck,
   isCheckMate,
   isMoveSafe,
+  isDraw,
 } from "./utils/checkLogic";
 import { getMoveNotation } from "./utils/notation";
 import Timer from "./components/Timer";
@@ -222,12 +223,13 @@ const move = getMoveNotation(
 
       const nextColor = nextTurn === "White" ? "w" : "b";
       
-      if (isCheckMate(newBoard, nextColor)) {
+      if (isCheckMate(newBoard, nextColor, movedPieces)) {
         alert("Checkmate! " + turn + " Wins!");
+      } else if (isDraw(newBoard, nextColor, movedPieces)) {
+        alert("Draw!");
       } else if (isKingInCheck(newBoard, nextColor)) {
         alert("Check!");
       }
-      
       setTurn(nextTurn);
     }
   };

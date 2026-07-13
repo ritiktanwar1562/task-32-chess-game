@@ -87,4 +87,4 @@ src | |-- components |   |-- Board.jsx |   |-- Square.jsx |   |-- Piece.jsx |   
 
 This project gave me practical experience with React and JavaScript. Instead of only learning React syntax, I learned how to solve real programming problems by breaking them into smaller parts.
 
-If I continue improving this project in the future, I would like to add features such as castling, pawn promotion, draw detection and playing against the computer.
+If I continue improving this project in the future, I would like to add features such as threefold repetition draw, fifty-move rule, insufficient material detection, online multiplayer and playing against the computer.
