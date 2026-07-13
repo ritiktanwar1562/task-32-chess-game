@@ -17,9 +17,43 @@ function isDiagonalPathClear(board, fromRow, fromCol, toRow, toCol) {
   
     return true;
   }
+  // check if horizontal path is clear
+function isHorizontalPathClear(board, row, fromCol, toCol) {
+  const step = toCol > fromCol ? 1 : -1;
+
+  for (let col = fromCol + step; col !== toCol; col += step) {
+    if (board[row][col] !== "") {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+// check if vertical path is clear
+function isVerticalPathClear(board, col, fromRow, toRow) {
+  const step = toRow > fromRow ? 1 : -1;
+
+  for (let row = fromRow + step; row !== toRow; row += step) {
+    if (board[row][col] !== "") {
+      return false;
+    }
+  }
+
+  return true;
+}
+
   // check whether the selected move is valid
-export function isValidMove(board, fromRow, fromCol, toRow, toCol) {
-    const piece = board[fromRow][fromCol];
+  export function isValidMove(
+    board,
+    fromRow,
+    fromCol,
+    toRow,
+    toCol,
+    movedPieces = {},
+    lastMove = null
+  ){
+     const piece = board[fromRow][fromCol];
   
     if (!piece) return false;
   // get piece type and color
@@ -61,19 +95,35 @@ export function isValidMove(board, fromRow, fromCol, toRow, toCol) {
       ) {
         return true;
       }
-  
-      
-    //  basic En Passant move
+
+      // diagonal capture
 if (
-    Math.abs(toCol - fromCol) === 1 &&
-    toRow === fromRow + direction &&
-    target === ""
-  ) {
-    return true;
-  }
+  Math.abs(toCol - fromCol) === 1 &&
+  toRow === fromRow + direction &&
+  target !== "" &&
+  target[0] !== color
+) {
+  return true;
+}
+// En Passant
+if (
+  Math.abs(toCol - fromCol) === 1 &&
+  toRow === fromRow + direction &&
+  target === "" &&
+  lastMove &&
+  lastMove.piece[1] === "p" &&
+  Math.abs(lastMove.fromRow - lastMove.toRow) === 2 &&
+  lastMove.toRow === fromRow &&
+  lastMove.toCol === toCol
+) {
+  return true;
+}
   
+    
       return false;
     }
+    
+
     // Rook movement
   if (type === "r") {
 
@@ -214,38 +264,41 @@ if (type === "k") {
     const rowDiff = Math.abs(toRow - fromRow);
     const colDiff = Math.abs(toCol - fromCol);
   
+    // king can move one square in any direction
     if (rowDiff <= 1 && colDiff <= 1) {
       return true;
     }
-  
-    //   king side castling
-    if (
-      rowDiff === 0 &&
-      colDiff === 2 &&
-      toCol > fromCol &&
-      board[fromRow][7] === color + "r" &&
-      board[fromRow][5] === "" &&
-      board[fromRow][6] === ""
-    ) {
-      return true;
-    }
-  
-    // queen side castling
-    if (
-      rowDiff === 0 &&
-      colDiff === 2 &&
-      toCol < fromCol &&
-      board[fromRow][0] === color + "r" &&
-      board[fromRow][1] === "" &&
-      board[fromRow][2] === "" &&
-      board[fromRow][3] === ""
-    ) {
-      return true;
-    }
-  
+  // kingside castling
+  if (
+    rowDiff === 0 &&
+    colDiff === 2 &&
+    toCol > fromCol &&
+    !movedPieces[color + "k"] &&
+    !movedPieces[color + "rRight"] &&
+    board[fromRow][7] === color + "r" &&
+    board[fromRow][5] === "" &&
+    board[fromRow][6] === ""
+  ) {
+    return true;
+  }
+
+  // queenside castling
+  if (
+    rowDiff === 0 &&
+    colDiff === 2 &&
+    toCol < fromCol &&
+    !movedPieces[color + "k"] &&
+    !movedPieces[color + "rLeft"] &&
+    board[fromRow][0] === color + "r" &&
+    board[fromRow][1] === "" &&
+    board[fromRow][2] === "" &&
+    board[fromRow][3] === ""
+  ) {
     return false;
   }
 
-      
-    return true;
+  return false;
+}
+
+return false;
   }

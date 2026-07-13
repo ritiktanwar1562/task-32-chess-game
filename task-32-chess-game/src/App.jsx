@@ -23,6 +23,15 @@ const [capturedBlack, setCapturedBlack] = useState([]);
 const [legalMoves, setLegalMoves] = useState([]);
 const [history, setHistory] = useState([]);
 const [lastMove, setLastMove] = useState(null);
+const [movedPieces, setMovedPieces] = useState({
+  wk: false,
+  bk: false,
+  wrLeft: false,
+  wrRight: false,
+  brLeft: false,
+  brRight: false,
+});
+
 
   const handleSquareClick = (row, col) => {
     if (!selected) {
@@ -33,7 +42,7 @@ const [lastMove, setLastMove] = useState(null);
 
 for (let r = 0; r < 8; r++) {
   for (let c = 0; c < 8; c++) {
-    if (isValidMove(board, row, col, r, c)) {
+    if (isValidMove(board, row, col, r, c, movedPieces, lastMove)) {
       moves.push({ row: r, col: c });
     }
   }
@@ -62,7 +71,9 @@ setLegalMoves(moves);
           selected.row,
           selected.col,
           row,
-          col
+          col,
+          movedPieces,
+          lastMove
         ) ||
         !isMoveSafe(
           board,
@@ -91,6 +102,41 @@ setLegalMoves(moves);
 
       newBoard[selected.row][selected.col] = "";
       const movedPiece = newBoard[row][col];
+      // En Passant capture
+if (
+  movedPiece[1] === "p" &&
+  selected.col !== col &&
+  capturedPiece === ""
+) {
+  newBoard[selected.row][col] = "";
+}
+
+
+      // save move history for king and rooks
+if (movedPiece === "wk") {
+  setMovedPieces((prev) => ({ ...prev, wk: true }));
+}
+
+if (movedPiece === "bk") {
+  setMovedPieces((prev) => ({ ...prev, bk: true }));
+}
+
+if (movedPiece === "wr" && selected.row === 7 && selected.col === 0) {
+  setMovedPieces((prev) => ({ ...prev, wrLeft: true }));
+}
+
+if (movedPiece === "wr" && selected.row === 7 && selected.col === 7) {
+  setMovedPieces((prev) => ({ ...prev, wrRight: true }));
+}
+
+if (movedPiece === "br" && selected.row === 0 && selected.col === 0) {
+  setMovedPieces((prev) => ({ ...prev, brLeft: true }));
+}
+
+if (movedPiece === "br" && selected.row === 0 && selected.col === 7) {
+  setMovedPieces((prev) => ({ ...prev, brRight: true }));
+}
+
 
       // Kingside Castling
 if (
@@ -112,12 +158,32 @@ if (
   newBoard[row][0] = "";
 }
 
+// White pawn promotion
 if (movedPiece === "wp" && row === 0) {
-  newBoard[row][col] = "wq";
+  const choice = prompt(
+    "Promote pawn to (q = Queen, r = Rook, b = Bishop, n = Knight):",
+    "q"
+  );
+
+  const piece = ["q", "r", "b", "n"].includes(choice)
+    ? choice
+    : "q";
+
+  newBoard[row][col] = "w" + piece;
 }
 
+// Black pawn promotion
 if (movedPiece === "bp" && row === 7) {
-  newBoard[row][col] = "bq";
+  const choice = prompt(
+    "Promote pawn to (q = Queen, r = Rook, b = Bishop, n = Knight):",
+    "q"
+  );
+
+  const piece = ["q", "r", "b", "n"].includes(choice)
+    ? choice
+    : "q";
+
+  newBoard[row][col] = "b" + piece;
 }
 
       if (capturedPiece !== "") {
