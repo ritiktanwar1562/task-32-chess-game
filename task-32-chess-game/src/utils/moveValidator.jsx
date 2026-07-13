@@ -1,4 +1,7 @@
-// check if diagonal path is clear
+/*
+  This file contains the movement rules for all chess pieces.
+  Each piece has its own movement logic.*/
+
 function isDiagonalPathClear(board, fromRow, fromCol, toRow, toCol) {
     const rowStep = toRow > fromRow ? 1 : -1;
     const colStep = toCol > fromCol ? 1 : -1;
@@ -10,7 +13,7 @@ function isDiagonalPathClear(board, fromRow, fromCol, toRow, toCol) {
       if (board[currentRow][currentCol] !== "") {
         return false;
       }
-  
+      
       currentRow += rowStep;
       currentCol += colStep;
     }
@@ -76,7 +79,7 @@ function isVerticalPathClear(board, col, fromRow, toRow) {
       const direction = color === "w" ? -1 : 1;
       const startRow = color === "w" ? 6 : 1;
   
-// move one step forward      
+// pawn normally moves one square forward    
       if (
         toCol === fromCol &&
         toRow === fromRow + direction &&
@@ -85,7 +88,7 @@ function isVerticalPathClear(board, col, fromRow, toRow) {
         return true;
       }
   
-    // move two steps from starting position
+    // if the pawn is on its starting square, it can move two square
       if (
         fromRow === startRow &&
         toCol === fromCol &&
@@ -96,7 +99,7 @@ function isVerticalPathClear(board, col, fromRow, toRow) {
         return true;
       }
 
-      // diagonal capture
+      // pawn captures pieces diagonally
 if (
   Math.abs(toCol - fromCol) === 1 &&
   toRow === fromRow + direction &&
@@ -105,14 +108,14 @@ if (
 ) {
   return true;
 }
-// En Passant
+// check if an en passant capture is possible
 if (
   Math.abs(toCol - fromCol) === 1 &&
   toRow === fromRow + direction &&
   target === "" &&
   lastMove &&
   lastMove.piece[1] === "p" &&
-  lastMove.piece[0] !== color &&
+  
   Math.abs(lastMove.fromRow - lastMove.toRow) === 2 &&
   lastMove.toRow === fromRow &&
   lastMove.toCol === toCol
@@ -128,36 +131,19 @@ if (
     // Rook movement
   if (type === "r") {
 
-    // check horizontal path
-    if (fromRow !== toRow && fromCol !== toCol) {
-      return false;
-    }
+    // If rook is moving horizontally, check all squares in between.
+if (fromRow === toRow) {
+  return isHorizontalPathClear(board, fromRow, fromCol, toCol);
+}
 
-    
-    if (fromRow === toRow) {
-      const step = toCol > fromCol ? 1 : -1;
+// If rook is moving vertically, check all squares in between.
+if (fromCol === toCol) {
+  return isVerticalPathClear(board, fromCol, fromRow, toRow);
+}
 
-      for (let c = fromCol + step; c !== toCol; c += step) {
-        if (board[fromRow][c] !== "") {
-          return false;
-        }
-      }
-    }
-
-    // check vertical path
-    if (fromCol === toCol) {
-      const step = toRow > fromRow ? 1 : -1;
-
-      for (let r = fromRow + step; r !== toRow; r += step) {
-        if (board[r][fromCol] !== "") {
-          return false;
-        }
-      }
-    }
-
-    return true;
+return false;
   }
-
+  
   //  Knight movement
   if (type === "n") {
 
@@ -184,80 +170,37 @@ if (
       return false;
     }
 
-    const rowStep = toRow > fromRow ? 1 : -1;
-    const colStep = toCol > fromCol ? 1 : -1;
 
-    let r = fromRow + rowStep;
-    let c = fromCol + colStep;
+if (rowDiff !== colDiff) {
+  return false;
+}
 
-    while (r !== toRow && c !== toCol) {
-      if (board[r][c] !== "") {
-        return false;
-      }
 
-      r += rowStep;
-      c += colStep;
-    }
-
-    return true;
+return isDiagonalPathClear(board, fromRow, fromCol, toRow, toCol);
   }
 
-  // Queen moves like rook and bishop
+  // Queen movement
 if (type === "q") {
 
-    const rowDiff = Math.abs(toRow - fromRow);
-    const colDiff = Math.abs(toCol - fromCol);
-  
-    
-    if (rowDiff === colDiff) {
-  
-      const rowStep = toRow > fromRow ? 1 : -1;
-      const colStep = toCol > fromCol ? 1 : -1;
-  
-      let r = fromRow + rowStep;
-      let c = fromCol + colStep;
-  
-      while (r !== toRow && c !== toCol) {
-        if (board[r][c] !== "") {
-          return false;
-        }
-        r += rowStep;
-        c += colStep;
-      }
-  
-      return true;
-    }
-  
-    // horizontal move
-    if (fromRow === toRow) {
-  
-      const step = toCol > fromCol ? 1 : -1;
-  
-      for (let c = fromCol + step; c !== toCol; c += step) {
-        if (board[fromRow][c] !== "") {
-          return false;
-        }
-      }
-  
-      return true;
-    }
-  
-    // vertical move
-    if (fromCol === toCol) {
-  
-      const step = toRow > fromRow ? 1 : -1;
-  
-      for (let r = fromRow + step; r !== toRow; r += step) {
-        if (board[r][fromCol] !== "") {
-          return false;
-        }
-      }
-  
-      return true;
-    }
-  
-    return false;
+  // Queen can move diagonally like a bishop.
+  const diagonalMove =
+    Math.abs(toRow - fromRow) === Math.abs(toCol - fromCol);
+
+  if (diagonalMove) {
+    return isDiagonalPathClear(board, fromRow, fromCol, toRow, toCol);
   }
+
+  // Queen can also move in a straight line like a rook.
+  if (fromRow === toRow) {
+    return isHorizontalPathClear(board, fromRow, fromCol, toCol);
+  }
+
+  if (fromCol === toCol) {
+    return isVerticalPathClear(board, fromCol, fromRow, toRow);
+  }
+
+  return false;
+}
   //  King  movement
 
 if (type === "k") {

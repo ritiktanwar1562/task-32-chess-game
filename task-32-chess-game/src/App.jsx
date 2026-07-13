@@ -19,8 +19,10 @@ function App() {
   const [moves, setMoves] = useState([]);
   const [whiteTime, setWhiteTime] = useState(600);
 const [blackTime, setBlackTime] = useState(600);
+
 const [capturedWhite, setCapturedWhite] = useState([]);
 const [capturedBlack, setCapturedBlack] = useState([]);
+
 const [legalMoves, setLegalMoves] = useState([]);
 const [history, setHistory] = useState([]);
 const [lastMove, setLastMove] = useState(null);
@@ -33,14 +35,17 @@ const [movedPieces, setMovedPieces] = useState({
   brRight: false,
 });
 
-
+   //This function runs whenever
+  // the user clicks on a square.
   const handleSquareClick = (row, col) => {
     if (!selected) {
       if (board[row][col] === "") return;
 
       const piece = board[row][col];
+      // Find all possible moves for the selected piece.
       const moves = [];
 
+      // check every square on the board
 for (let r = 0; r < 8; r++) {
   for (let c = 0; c < 8; c++) {
     if (isValidMove(board, row, col, r, c, movedPieces, lastMove)) {
@@ -48,10 +53,11 @@ for (let r = 0; r < 8; r++) {
     }
   }
 }
-
+// show all valid moves on the board
 setLegalMoves(moves);
 
-
+     // Make sure the player selects
+    // only their own piece.
       if (turn === "White" && piece[0] !== "w") {
         alert("It's White's Turn");
         return;
@@ -64,8 +70,11 @@ setLegalMoves(moves);
 
       setSelected({ row, col });
     } else {
+      // get the color of the selected piece
       const color = board[selected.row][selected.col][0];
 
+      // Check if the move is valid
+      // and the king stays safe.
       if (
         !isValidMove(
           board,
@@ -96,11 +105,17 @@ setLegalMoves(moves);
         ...prev,
         board.map((row) => [...row])
       ]);
-      const newBoard = board.map((r) => [...r]);
 
+      //Create a copy of the current board
+     // so the original board is not changed directly.
+      const newBoard = board.map((r) => [...r]);
+     
+      //move the selected piece
+      //to the new  square
       newBoard[row][col] =
         newBoard[selected.row][selected.col];
 
+       //clear the old square
       newBoard[selected.row][selected.col] = "";
       const movedPiece = newBoard[row][col];
       // En Passant capture
@@ -113,7 +128,7 @@ if (
 }
 
 
-      // save move history for king and rooks
+      // Remember if king or rook has moved.
 if (movedPiece === "wk") {
   setMovedPieces((prev) => ({ ...prev, wk: true }));
 }
@@ -139,7 +154,7 @@ if (movedPiece === "br" && selected.row === 0 && selected.col === 7) {
 }
 
 
-      // Kingside Castling
+      //  move the rook during Kingside Castling
 if (
   movedPiece[1] === "k" &&
   Math.abs(col - selected.col) === 2 &&
@@ -149,7 +164,7 @@ if (
   newBoard[row][7] = "";
 }
 
-// Queenside Castling
+//  move the rook during Queenside Castling
 if (
   movedPiece[1] === "k" &&
   Math.abs(col - selected.col) === 2 &&
@@ -159,7 +174,7 @@ if (
   newBoard[row][0] = "";
 }
 
-// White pawn promotion
+// promote white pawn
 if (movedPiece === "wp" && row === 0) {
   const choice = prompt(
     "Promote pawn to (q = Queen, r = Rook, b = Bishop, n = Knight):",
@@ -173,7 +188,7 @@ if (movedPiece === "wp" && row === 0) {
   newBoard[row][col] = "w" + piece;
 }
 
-// Black pawn promotion
+// promote black pawn
 if (movedPiece === "bp" && row === 7) {
   const choice = prompt(
     "Promote pawn to (q = Queen, r = Rook, b = Bishop, n = Knight):",
@@ -215,10 +230,12 @@ const move = getMoveNotation(
         toCol: col,
       });
 
+      // update the board after the move
       setBoard(newBoard);
       setSelected(null);
       setLegalMoves([]);
 
+      // change turn after a valid move
       const nextTurn = turn === "White" ? "Black" : "White";
 
       const nextColor = nextTurn === "White" ? "w" : "b";
@@ -234,6 +251,7 @@ const move = getMoveNotation(
     }
   };
 
+   // restore the previous board state
   const undoMove = () => {
     if (history.length === 0) {
       return;

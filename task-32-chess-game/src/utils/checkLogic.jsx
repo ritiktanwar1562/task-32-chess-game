@@ -1,8 +1,17 @@
 import { isValidMove } from "./moveValidator";
+/*
+  This file checks if a king is in check,
+  checkmate or draw.
+
+  The functions use moveValidator.js
+  to test whether a move is legal.
+*/
 
 export function isKingInCheck(board, color) {
   let kingRow = -1;
   let kingCol = -1;
+
+  // find the king position
 
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
@@ -12,7 +21,7 @@ export function isKingInCheck(board, color) {
       }
     }
   }
-
+    // check if any opponent piece can attack the king
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
       const piece = board[row][col];
@@ -37,6 +46,7 @@ export function isKingInCheck(board, color) {
 }
 
 export function isMoveSafe(board, fromRow, fromCol, toRow, toCol, color) {
+  // create a copy of the board
   const tempBoard = board.map((row) => [...row]);
 
   tempBoard[toRow][toCol] = tempBoard[fromRow][fromCol];
@@ -45,6 +55,7 @@ export function isMoveSafe(board, fromRow, fromCol, toRow, toCol, color) {
   return !isKingInCheck(tempBoard, color);
 }
 
+// check if the player has any legal move left
 export function isCheckMate(board, color, movedPieces = {}) {
   if (!isKingInCheck(board, color)) {
     return false;
@@ -87,7 +98,7 @@ export function isCheckMate(board, color, movedPieces = {}) {
 
   return true;
 }
-
+// check if the game is a draw
 export function isDraw(board, color, movedPieces = {}) {
   if (isKingInCheck(board, color)) {
     return false;
