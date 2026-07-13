@@ -194,12 +194,16 @@ if (movedPiece === "bp" && row === 7) {
         }
       }
 
-      const move = getMoveNotation(
-        selected.row,
-        selected.col,
-        row,
-        col
-      );
+      const movingPiece = board[selected.row][selected.col];
+
+const move = getMoveNotation(
+  selected.row,
+  selected.col,
+  row,
+  col,
+  movingPiece,
+  capturedPiece !== ""
+);
 
       setMoves((prev) => [...prev, move]);
       setLastMove({

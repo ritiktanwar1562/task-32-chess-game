@@ -294,7 +294,7 @@ if (type === "k") {
     board[fromRow][2] === "" &&
     board[fromRow][3] === ""
   ) {
-    return false;
+    return true;
   }
 
   return false;

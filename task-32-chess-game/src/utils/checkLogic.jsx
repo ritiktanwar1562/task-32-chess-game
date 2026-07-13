@@ -49,7 +49,7 @@ export function isMoveSafe(board, fromRow, fromCol, toRow, toCol, color) {
     return !isKingInCheck(tempBoard, color);
   }
 
-export function isCheckMate(board, color) {
+export function isCheckMate(board, color, movedPieces = {}) {
   // first check if the king is actually in check
     if (!isKingInCheck(board, color)) {
       return false;
@@ -68,7 +68,14 @@ export function isCheckMate(board, color) {
           for (let toCol = 0; toCol < 8; toCol++) {
   // if any legal move saves the king then its not checkmate
             if (
-                isValidMove(board, fromRow, fromCol, toRow, toCol) &&
+              isValidMove(
+                board,
+                fromRow,
+                fromCol,
+                toRow,
+                toCol,
+                movedPieces
+              )&&
                 isMoveSafe(board, fromRow, fromCol, toRow, toCol, color)
               ) {
                 return false;
