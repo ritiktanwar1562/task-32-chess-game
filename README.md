@@ -2,28 +2,31 @@
 
 ## About Project
 
-I made this offline chess game using React JS to improve my React and JavaScript skills. While working on this project, I learned how to implement different chess rules and manage the game state using React.
+This is my Offline Chess Game project made using React JS.
 
-I made this project step by step. First, I created the chess board and placed all the pieces in their starting positions. After that, I added the movement logic for each piece. Then I implemented features like turn switching, check, checkmate, castling, pawn promotion, move history and timers. I tested every feature while developing the project and fixed the issues I found.
+I made this project to improve my React and JavaScript skills. Before this, I had only made small React projects. This project helped me understand how to build a bigger application with different components and game logic.
+
+While making this project, I learned many chess rules and implemented them step by step.
+
+---
 
 ## Features
 
-- 8x8 chess board
+- 8×8 Chess Board
 - All chess pieces with correct starting positions
-- Valid movement for all pieces
-- Turn system for White and Black
+- Piece movement validation
+- White and Black turn system
 - Check detection
 - Checkmate detection
-- Draw detection
-- Castling
-- En Passant
-- Pawn Promotion
-- Move history
 - Move notation
-- Undo move
+- Move history
 - Captured pieces
+- Undo move
 - Timer for both players
+- Game over when timer reaches zero
 - Legal move highlighting
+
+---
 
 ## Technologies Used
 
@@ -33,51 +36,75 @@ I made this project step by step. First, I created the chess board and placed al
 - CSS
 - Vite
 
-## How to Run
+---
 
-1. Open the project folder.
-2. Run npm install
-3. Run npm run dev
-4. Open the local URL shown in the terminal.
+## How I Built This Project
+
+First, I created the chess board and placed all the pieces in their correct positions.
+
+Then I added the movement logic for every chess piece like Pawn, Rook, Knight, Bishop, Queen and King.
+
+After that, I worked on turn switching, move validation, check, checkmate, timers, move history, move notation and undo feature.
+
+I divided my code into different components and utility files so that it was easier to manage.
+
+---
+
+## Challenges I Faced
+
+The biggest challenge was writing the chess rules correctly.
+
+I spent a lot of time fixing move validation and check/checkmate logic.
+
+I also faced some issues while working on timers and undo functionality. I solved them by testing different game situations and fixing the bugs one by one.
+
+This project also helped me improve my debugging skills.
+
+---
 
 ## What I Learned
 
-While making this project, I learned:
+From this project I learned:
 
-- React components
-- useState hook
-- Passing props between components
-- Chess movement logic
-- Managing game state
-- Debugging JavaScript code
+- How to use React components
+- How to manage state using useState
+- How to write JavaScript logic
+- How to debug React projects
+- How to organize code into different files
+- How to test features one by one
 
-## Challenges
+---
 
-The most difficult part of this project was implementing chess rules like check, checkmate, castling and pawn promotion. I tested different board positions and fixed bugs step by step until everything worked correctly.
+## How to Run
+
+1. Download or clone the project.
+
+2. Open the project in VS Code.
+
+3. Open the terminal.
+
+4. Install dependencies.
+
+npm install
+5. Run the project.
+
+npm run dev
+6. Open the localhost link shown in the terminal.
+
+---
 
 ## Project Structure
 
 src
+│
 ├── components
 ├── data
 ├── utils
-├── App.jsx
-└── main.jsx
-## Future Improvements
-
-- Better UI
-- Sound effects
-- Online multiplayer
-- Save and load game
-- Computer opponent
+└── App.jsx
+---
 
 ## Conclusion
 
-<<<<<<< HEAD
+This project gave me good practice with React and JavaScript. While building this project, I learned how to solve problems step by step and how to build a bigger project instead of a simple application.
 
-
-
-I made this project to improve my React and JavaScript skills. It helped me understand how to build a larger application by breaking it into smaller parts. I also learned how to test and debug my code while implementing different chess rules.
-=======
-I made this project to improve my React and JavaScript skills. It helped me understand how to build a larger application by breaking it into smaller parts. I also learned how to test and debug my code while implementing different chess rules.
->>>>>>> 1eb7739 (final chess game improvements)
+In the future, I would like to add online multiplayer, play against computer and more advanced chess features.
