@@ -73,7 +73,11 @@ src
 
 ## Conclusion
 
+<<<<<<< HEAD
 
 
 
 I made this project to improve my React and JavaScript skills. It helped me understand how to build a larger application by breaking it into smaller parts. I also learned how to test and debug my code while implementing different chess rules.
+=======
+I made this project to improve my React and JavaScript skills. It helped me understand how to build a larger application by breaking it into smaller parts. I also learned how to test and debug my code while implementing different chess rules.
+>>>>>>> 1eb7739 (final chess game improvements)
