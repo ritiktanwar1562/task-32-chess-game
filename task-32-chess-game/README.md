@@ -1,40 +1,32 @@
 # Offline Chess Game using React JS
 
-## About My Project
+## About Project
 
-I built this offline chess game as part of my React learning journey. Before starting this project, I had only created small React applications. I wanted to challenge myself by creating a game that uses both React components and JavaScript logic.
+This is my Offline Chess Game project made using React JS.
 
-While working on this project, I learned how different chess rules work and how to convert those rules into code. I completed the project by developing and testing each feature one by one.
+I made this project to improve my React and JavaScript skills. Before this, I had only made small React projects. This project helped me understand how to build a bigger application with different components and game logic.
 
-## Features I Added
+While making this project, I learned many chess rules and implemented them step by step.
 
-- Created an 8x8 chess board
-- Added all chess pieces with their starting positions
-- Added movement logic for all pieces
-- Added turn system for White and Black players
-- Added invalid move checking
-- Added check detection
-- Added checkmate logic
-- Added timer for both players
-- Added move list display
-- Added chess move notation
-- Added captured pieces display
-- Added undo move feature
-- Added legal move highlighting
+---
 
-## How I Made This Project
+## Features
 
-I started this project by creating different React components for the chess board, squares, pieces and other sections.
+- 8×8 Chess Board
+- All chess pieces with correct starting positions
+- Piece movement validation
+- White and Black turn system
+- Check detection
+- Checkmate detection
+- Move notation
+- Move history
+- Captured pieces
+- Undo move
+- Timer for both players
+- Game over when timer reaches zero
+- Legal move highlighting
 
-First, I created the board layout and displayed all chess pieces in their initial positions.
-
-After that, I worked on the movement logic of each chess piece like Pawn, Rook, Knight, Bishop, Queen and King.
-
-I created separate files for handling different logic parts so that the code becomes easier to manage.
-
-Then I added player turns, timers, move history and check/checkmate functionality.
-
-I tested every feature step by step and fixed errors while developing the project.
+---
 
 ## Technologies Used
 
@@ -44,47 +36,75 @@ I tested every feature step by step and fixed errors while developing the projec
 - CSS
 - Vite
 
-## How To Run This Project
+---
 
-Follow these steps to run the project:
+## How I Built This Project
 
-1. Download or clone this project.
+First, I created the chess board and placed all the pieces in their correct positions.
 
-2. Open the project folder in VS Code.
+Then I added the movement logic for every chess piece like Pawn, Rook, Knight, Bishop, Queen and King.
 
-3. Open terminal in the project folder.
+After that, I worked on turn switching, move validation, check, checkmate, timers, move history, move notation and undo feature.
 
-4. Install all dependencies:
+I divided my code into different components and utility files so that it was easier to manage.
 
-5. Start the development server:
+---
 
-6. open the localhost link shown in the terminal in your browser.
+## Challenges I Faced
 
-## What I Learned From This Project
+The biggest challenge was writing the chess rules correctly.
 
-While creating this project, I learned many new things about React and JavaScript.
+I spent a lot of time fixing move validation and check/checkmate logic.
 
-I learned:
-- How to create and use React components.
-- How to manage states using useState.
-- How to update UI according to user actions.
-- How to divide a large project into smaller files.
-- How to create game logic using JavaScript.
-- How to debug and solve errors.
+I also faced some issues while working on timers and undo functionality. I solved them by testing different game situations and fixing the bugs one by one.
 
-## Problems I Faced
+This project also helped me improve my debugging skills.
 
-The hardest part of this project was implementing check and checkmate logic because I first had to find the king, then check whether any opponent piece could attack it.
+---
 
-Another challenge was validating legal moves without breaking the game state. During development I tested many board positions manually and fixed several bugs related to piece movement, turn switching and move validation.
+## What I Learned
 
-I improved the project step by step instead of writing everything at once, which helped me understand the complete logic.
+From this project I learned:
+
+- How to use React components
+- How to manage state using useState
+- How to write JavaScript logic
+- How to debug React projects
+- How to organize code into different files
+- How to test features one by one
+
+---
+
+## How to Run
+
+1. Download or clone the project.
+
+2. Open the project in VS Code.
+
+3. Open the terminal.
+
+4. Install dependencies.
+
+npm install
+5. Run the project.
+
+npm run dev
+6. Open the localhost link shown in the terminal.
+
+---
 
 ## Project Structure
-src | |-- components |   |-- Board.jsx |   |-- Square.jsx |   |-- Piece.jsx |   |-- Timer.jsx |   |-- MoveList.jsx | |-- data |   |-- initialBoard.js | |-- utils |-- moveValidator.jsx |-- chessLogic.jsx |-- checkLogic.jsx |-- notation.jsx
+
+src
+│
+├── components
+├── data
+├── utils
+└── App.jsx
+---
 
 ## Conclusion
 
-This project gave me practical experience with React and JavaScript. Instead of only learning React syntax, I learned how to solve real programming problems by breaking them into smaller parts.
+This project gave me good practice with React and JavaScript. While building this project, I learned how to solve problems step by step and how to build a bigger project instead of a simple application.
 
-If I continue improving this project in the future, I would like to add features such as threefold repetition draw, fifty-move rule, insufficient material detection, online multiplayer and playing against the computer.
+In the future, I would like to add online multiplayer, play against computer and more advanced chess features.

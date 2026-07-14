@@ -35,9 +35,15 @@ const [movedPieces, setMovedPieces] = useState({
   brRight: false,
 });
 
+const [gameOver, setGameOver] = useState(false);
+
    //This function runs whenever
   // the user clicks on a square.
   const handleSquareClick = (row, col) => {
+    if (gameOver) {
+      return;
+    }
+
     if (!selected) {
       if (board[row][col] === "") return;
 
@@ -103,7 +109,15 @@ setLegalMoves(moves);
       const capturedPiece = board[row][col];
       setHistory((prev) => [
         ...prev,
-        board.map((row) => [...row])
+        {
+          board: board.map((row) => [...row]),
+          moves: [...moves],
+          capturedWhite: [...capturedWhite],
+          capturedBlack: [...capturedBlack],
+          whiteTime,
+          blackTime,
+          turn,
+        },
       ]);
 
       //Create a copy of the current board
@@ -213,6 +227,7 @@ if (movedPiece === "bp" && row === 7) {
       const movingPiece = board[selected.row][selected.col];
 
 const move = getMoveNotation(
+  newBoard,
   selected.row,
   selected.col,
   row,
@@ -252,22 +267,22 @@ const move = getMoveNotation(
   };
 
    // restore the previous board state
-  const undoMove = () => {
+   const undoMove = () => {
     if (history.length === 0) {
       return;
     }
   
-    const previousBoard = history[history.length - 1];
+    const previousState = history[history.length - 1];
   
-    setBoard(previousBoard);
+    setBoard(previousState.board);
+    setMoves(previousState.moves);
+    setCapturedWhite(previousState.capturedWhite);
+    setCapturedBlack(previousState.capturedBlack);
+    setWhiteTime(previousState.whiteTime);
+    setBlackTime(previousState.blackTime);
+    setTurn(previousState.turn);
   
-    setHistory(
-      history.slice(0, history.length - 1)
-    );
-  
-    setTurn(
-      turn === "White" ? "Black" : "White"
-    );
+    setHistory(history.slice(0, history.length - 1));
   };
 
   return (
@@ -303,6 +318,8 @@ const move = getMoveNotation(
   time={whiteTime}
   setTime={setWhiteTime}
   isActive={turn === "White"}
+  setGameOver={setGameOver}
+  player="White"
 />
 
 <p>
@@ -313,6 +330,8 @@ const move = getMoveNotation(
   time={blackTime}
   setTime={setBlackTime}
   isActive={turn === "Black"}
+  setGameOver={setGameOver}
+  player="Black"
 />
 
           <MoveList moves={moves} />
